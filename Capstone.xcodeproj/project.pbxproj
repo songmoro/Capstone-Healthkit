@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6229714528D9864600F6165D /* Pet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6229714428D9864600F6165D /* Pet.swift */; };
 		6229714828D9949200F6165D /* ActivityRedringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6229714728D9949200F6165D /* ActivityRedringView.swift */; };
 		6236F65328DB4E59004D8090 /* SidemenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6236F65228DB4E59004D8090 /* SidemenuView.swift */; };
 		626E353F28D481270093BCFC /* CapstoneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626E353E28D481270093BCFC /* CapstoneApp.swift */; };
@@ -51,7 +50,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6229714428D9864600F6165D /* Pet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pet.swift; sourceTree = "<group>"; };
 		6229714728D9949200F6165D /* ActivityRedringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityRedringView.swift; sourceTree = "<group>"; };
 		6236F65228DB4E59004D8090 /* SidemenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidemenuView.swift; sourceTree = "<group>"; };
 		626E353B28D481270093BCFC /* Capstone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capstone.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -121,7 +119,6 @@
 				62EA03E428DAD01400EF2AA9 /* MainView.swift */,
 				6236F65228DB4E59004D8090 /* SidemenuView.swift */,
 				62EA03E828DAED9000EF2AA9 /* StorageView.swift */,
-				6229714428D9864600F6165D /* Pet.swift */,
 				626E354228D481280093BCFC /* Assets.xcassets */,
 				626E354428D481280093BCFC /* Preview Content */,
 			);
@@ -257,7 +254,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6229714528D9864600F6165D /* Pet.swift in Sources */,
 				62EA03E528DAD01400EF2AA9 /* MainView.swift in Sources */,
 				6229714828D9949200F6165D /* ActivityRedringView.swift in Sources */,
 				626E354128D481270093BCFC /* ContentView.swift in Sources */,
