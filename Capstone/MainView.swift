@@ -223,6 +223,12 @@ func authorizeHealthkit() { // 권한 허용 함수
 struct ActivityRingView: View {
     @EnvironmentObject var UserActivity : UserActivityClass // 유저 활동
     
+    func PreDataSetting() { // 시뮬레이터용 사전 데이터 세팅
+        UserActivity.Kcal = 0
+        UserActivity.ExerTime = 0
+        UserActivity.StandTime = 0
+    }
+    
     func KcalData() { // 당일 칼로리 불러오기
         let HealthStore = HKHealthStore()
         let Now = Date()
@@ -302,7 +308,7 @@ struct ActivityRingView: View {
             
             ActivityBlueringView(Progress: .constant((UserActivity.StandTime >= UserActivity.StandTimeMax ? UserActivity.StandTimeMax : UserActivity.StandTime) / UserActivity.StandTimeMax))
         }
-        .onAppear(perform: DataLoad)
+        .onAppear(perform: PreDataSetting)
     }
 
 }
