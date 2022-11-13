@@ -6,9 +6,8 @@
 //
 
 import SwiftUI
-import HealthKit
 
-extension Color {
+extension Color { // 색 사전 정의
     public static var outlineBlue: Color {
         return Color(decimalRed: 30, green: 51, blue: 38)
     }
@@ -29,20 +28,16 @@ extension Color {
 
 
 struct ActivityBlueringView: View {
-    @Binding var progress: CGFloat
+    @Binding var Progress: CGFloat // 진행도
     
-    let typeToShare:HKCategoryType? = HKObjectType.categoryType(forIdentifier: .appleStandHour)
-       
-    let typeToRead:HKSampleType? = HKObjectType.categoryType(forIdentifier: .appleStandHour)
-    
-    var colors: [Color] = [Color.darkBlue, Color.lightBlue]
+    var colors: [Color] = [Color.darkBlue, Color.lightBlue] // 색 배열
     
     var body: some View {
         ZStack {
             Circle()
                 .stroke(Color.outlineBlue, lineWidth: 20)
             Circle()
-                .trim(from: 0, to: progress)
+                .trim(from: 0, to: Progress)
                 .stroke(
                     AngularGradient(
                         gradient: Gradient(colors: colors),
@@ -58,10 +53,10 @@ struct ActivityBlueringView: View {
                 .offset(y: -120)
             Circle()
                 .frame(width: 20, height: 20)
-                .foregroundColor(progress > 0.95 ? Color.lightBlue: Color.lightBlue.opacity(0))
+                .foregroundColor(Progress > 0.95 ? Color.lightBlue: Color.lightBlue.opacity(0))
                 .offset(y: -120)
-                .rotationEffect(Angle.degrees(360 * Double(progress)))
-                .shadow(color: progress > 0.96 ? Color.black.opacity(0.1): Color.clear, radius: 3, x: 4, y: 0)
+                .rotationEffect(Angle.degrees(360 * Double(Progress)))
+                .shadow(color: Progress > 0.96 ? Color.black.opacity(0.1): Color.clear, radius: 3, x: 4, y: 0)
         }.frame(width: 240, height: 240, alignment: .center)
     }
 }
@@ -69,6 +64,6 @@ struct ActivityBlueringView: View {
 struct ActivityBlueringView_Previews: PreviewProvider {
     
     static var previews: some View {
-        ActivityBlueringView(progress: .constant(0))
+        ActivityBlueringView(Progress: .constant(0))
     }
 }

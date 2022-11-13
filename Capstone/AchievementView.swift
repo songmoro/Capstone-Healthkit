@@ -8,30 +8,30 @@
 import SwiftUI
 
 struct AchievementView: View {
-    @EnvironmentObject var userachivement : UserAchivement
-    @EnvironmentObject var User : Userdata
-    @EnvironmentObject var userstorage : UserStorage
+    @EnvironmentObject var UserAchivement : UserAchivementClass
+    @EnvironmentObject var UserData : UserDataClass
+    @EnvironmentObject var UserStorage : UserStorageClass
     
-    func ref(row:Int) -> Int {
+    func ref(row:Int) -> Int { // 참조 계수 결정
         
-        switch userachivement.AchiveObject[row] {
-        case "Kcalamount" :
-            return User.Kcalamount
+        switch UserAchivement.AchiveObject[row] {
+        case "KcalAmount" :
+            return UserData.KcalAmount
             
-        case "Exertimeamount" :
-            return User.Exertimeamount
+        case "ExerTimeAmount" :
+            return UserData.ExerTimeAmount
             
-        case "Standtimeamount" :
-            return User.Standtimeamount
+        case "StandTimeAmount" :
+            return UserData.StandTimeAmount
             
-        case "Storageamount" :
-            return userstorage.Storageamount
+        case "StorageAmount" :
+            return UserStorage.StorageAmount
             
         case "Level" :
-            return User.Level
+            return UserData.Level
             
-        case "xpamount" :
-            return User.xpamount
+        case "XpAmount" :
+            return UserData.XpAmount
             
         default:
             return 0
@@ -44,28 +44,25 @@ struct AchievementView: View {
             Color(decimalRed: 27, green: 29, blue: 31)
                 .ignoresSafeArea()
             
-            VStack() {
-                
-                Text("\(userachivement.Achivecount) / \(userachivement.AchiveMaxcount)")
+            VStack() { // 업적 리스트
+                Text("\(UserAchivement.AchiveCount) / \(UserAchivement.AchiveMaxCount)")
                     .foregroundColor(.white)
                     .font(.title)
                 
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 20) {
                         ForEach(0..<20) { row in
+    
+                            let AchiveAmount = ref(row:row) // 참조 계수 불러오기
                             
-                            let Achiveamount = ref(row:row)
-                            
-                            
-                            
-                            HStack () {
+                            HStack () { // 업적 내용 및 달성도 표시
                                 ZStack() {
                                     RoundedRectangle(cornerRadius: 10)
                                         .foregroundColor(.gray)
                                         .frame(width: 300, height: 50)
                                     VStack() {
-                                        Text("\(userachivement.AchiveList[row])")
-                                        Text("\(Achiveamount) / \(userachivement.Achiveamount[row])")
+                                        Text("\(UserAchivement.AchiveList[row])")
+                                        Text("\(AchiveAmount) / \(UserAchivement.AchiveAmount[row])")
                                     }
                                     .foregroundColor(.white)
                                     .frame(width: 300, height: 50)
@@ -74,12 +71,12 @@ struct AchievementView: View {
                                 }
                                 
                                 
-                                ZStack() {
+                                ZStack() { // 달성 여부 표현
                                     RoundedRectangle(cornerRadius: 10)
                                         .foregroundColor(.gray)
                                         .frame(width: 50, height: 50)
                                     
-                                    if userachivement.AchivePass[row] {
+                                    if UserAchivement.AchivePass[row] {
                                         Text("Got")
                                             .foregroundColor(.yellow)
                                             .frame(width: 50, height: 50)
@@ -87,12 +84,12 @@ struct AchievementView: View {
                                             .cornerRadius(10)
                                     }
                                     else {
-                                        if Achiveamount >= userachivement.Achiveamount[row] {
+                                        if AchiveAmount >= UserAchivement.AchiveAmount[row] {
                                             Button(action: {
-                                                userachivement.Achivecount += 1
-                                                userachivement.AchiveNew -= 1
-                                                userachivement.AchivePass[row] = true
-                                                User.Havexp += 100
+                                                UserAchivement.AchiveCount += 1
+                                                UserAchivement.AchiveNew -= 1
+                                                UserAchivement.AchivePass[row] = true
+                                                UserData.HaveXp += 100
                                             }){
                                                 Text("Get")
                                                     .foregroundColor(.white)
@@ -122,8 +119,8 @@ struct AchievementView: View {
 
 struct AchievementView_Previews: PreviewProvider {
     static var previews: some View {
-        AchievementView().environmentObject(UserAchivement())
-            .environmentObject(Userdata())
-            .environmentObject(UserStorage())
+        AchievementView().environmentObject(UserAchivementClass())
+            .environmentObject(UserDataClass())
+            .environmentObject(UserStorageClass())
     }
 }

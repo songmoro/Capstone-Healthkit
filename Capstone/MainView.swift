@@ -8,135 +8,91 @@
 import SwiftUI
 import HealthKit
 
-/*
-let healthStore = HKHealthStore()
-
-func requestAuthorization(){
-    let read = Set([
-        HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
-    ])
-    let share = Set([
-        HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
-    ])
-    
-    healthStore.requestAuthorization(toShare: share, read: read) { success, error in
-        if error != nil {
-            print(error.debugDescription)
-        }else{
-            if success {
-                print("권한이 허락되었습니다.")
-                
-                func getRedringValue() {
-                    guard let activeEnergyBurnedType = HKSampleType.quantityType(forIdentifier: .activeEnergyBurned) else{
-                        return
-                    }
-                    
-                    let now = Date()
-                    let startDate = Calendar.current.startOfDay(for: now)
-                    let predicate = HKQuery.predicateForSamples(withStart: startDate, end: now, options: .strictStartDate)
-                    
-                    
-                    var cal:Double = 0.0
-                    let query = HKStatisticsQuery(quantityType: activeEnergyBurnedType, quantitySamplePredicate: predicate, options:.cumulativeSum){(query, result, error) in
-                        let query_result = result?.sumQuantity() as Any
-                        cal = (query_result as AnyObject).doubleValue(for: HKUnit.kilocalorie())
-                        print(cal)
-                    }
-                    healthStore.execute(query)
-                    
-                }
-            }else{
-                print("권한이 아직 없어요.")
-            }
-        }
-    }
-}
-*/
-
 struct CouponView: View {
-    //Binding은 외부에서 값을 바인딩시킬수있다.
-    //택스트필드에 들어갈 값을 저장하기위한 변수
-    @State var text : String = ""
-    @Binding var showCoupon : Bool
-    @State var editText : Bool = false
+    @State var CouponText : String = "" // 쿠폰 입력란
+    @Binding var ShowCoupon : Bool // 쿠폰 창 팝업 여부
+    @State var EditText : Bool = false // 입력 중 여부
     
-    @EnvironmentObject var User: Userdata
-    @EnvironmentObject var Activity: UserActivity
-    @EnvironmentObject var userstorage:UserStorage
+    @EnvironmentObject var UserData: UserDataClass // 유저 데이터
+    @EnvironmentObject var UserActivity: UserActivityClass // 유저 활동
+    @EnvironmentObject var UserStorage:UserStorageClass // 유저 보관함
     
-    func Code(Coupon:String) {
+    func Code(Coupon:String) { // 적용될 디버깅 코드
         switch Coupon {
         case "givexp10":
-            User.Havexp += 10
+            UserData.HaveXp += 10
             
         case "givexp100":
-            User.Havexp += 100
+            UserData.HaveXp += 100
             
         case "givexp1000":
-            User.Havexp += 1000
+            UserData.HaveXp += 1000
             
         case "clearxp":
-            User.Havexp = 0
-            User.Level = 0
-            User.xp = 0
-            User.Levelup = false
-            User.xpamount = 0
+            UserData.HaveXp = 0
+            UserData.Level = 0
+            UserData.Xp = 0
+            UserData.LevelUp = false
+            UserData.XpAmount = 0
             
         case "kcal100":
-            Activity.Kcal += 100
-            User.Havexp += (100 / 400) * 100
-            User.Kcalamount += 100
+            UserActivity.Kcal += 100
+            UserData.HaveXp += (100 / 400) * 100
+            UserData.KcalAmount += 100
             
         case "kcal1000":
-            Activity.Kcal += 1000
-            User.Havexp += (1000 / 400) * 100
-            User.Kcalamount += 1000
+            UserActivity.Kcal += 1000
+            UserData.HaveXp += (1000 / 400) * 100
+            UserData.KcalAmount += 1000
             
         case "exer10":
-            Activity.Exertime += 10
-            User.Havexp += (10 / 60) * 100
-            User.Exertimeamount += 10
+            UserActivity.ExerTime += 10
+            UserData.HaveXp += (10 / 60) * 100
+            UserData.ExerTimeAmount += 10
             
         case "exer100":
-            Activity.Exertime += 100
-            User.Havexp += (100 / 60) * 100
-            User.Exertimeamount += 100
+            UserActivity.ExerTime += 100
+            UserData.HaveXp += (100 / 60) * 100
+            UserData.ExerTimeAmount += 100
             
         case "stand1":
-            Activity.StandTime += 1
-            User.Havexp += (1 / 10) * 100
-            User.Standtimeamount += 1
+            UserActivity.StandTime += 1
+            UserData.HaveXp += (1 / 10) * 100
+            UserData.StandTimeAmount += 1
             
         case "stand10":
-            Activity.StandTime += 10
-            User.Havexp += (10 / 10) * 100
-            User.Standtimeamount += 10
+            UserActivity.StandTime += 10
+            UserData.HaveXp += (10 / 10) * 100
+            UserData.StandTimeAmount += 10
             
         case "clearact":
-            Activity.Kcal = 0
-            Activity.Exertime = 0
-            Activity.StandTime = 0  
+            UserActivity.Kcal = 0
+            UserActivity.ExerTime = 0
+            UserActivity.StandTime = 0
             
-            User.Kcalamount = 0
-            User.Exertimeamount = 0
-            User.Standtimeamount = 0
+            UserData.KcalAmount = 0
+            UserData.ExerTimeAmount = 0
+            UserData.StandTimeAmount = 0
             
         case "clearstorage":
-            userstorage.Storageamount = 1
-            userstorage.StorageMaxamount = 5
-            userstorage.StorageList = [1, 3, 5]
+            UserStorage.StorageAmount = 1
+            UserStorage.StorageMaxAmount = 5
+            UserStorage.StorageList = [1, 3, 5]
             
-            userstorage.StorageHaveList = [1]
-            userstorage.StorageNotHaveList = [2, 3, 4, 5]
-            User.Petnumber = 1
+            UserStorage.StorageHaveList = [1]
+            UserStorage.StorageNotHaveList = [2, 3, 4, 5]
+            UserData.PetNumber = 1
             
-        default:
+        case "clear":
+            Code(Coupon:"clearact")
+            Code(Coupon:"clearstorage")
+            
+        default: // 나머지
             break
         }
     }
     
     var body: some View {
-
             RoundedRectangle(cornerRadius: 10)
                 .fill(.gray)
                 .frame(width: 312, height: 102)
@@ -146,46 +102,30 @@ struct CouponView: View {
                          .frame(width: 310, height: 100)
                 )
                 .overlay(
-                        Button(action: {showCoupon = false}){
+                        Button(action: {ShowCoupon = false}){
                             Image(systemName: "multiply.square.fill")
                                 .font(.system(size: 25))
                                 .padding(10)
                         }
                         ,alignment: .topTrailing
                 )
-                .overlay(
+                .overlay( // 쿠폰 창
                     HStack{
-                        //검색창을 받을수있는 택스트필드
-                        TextField("Type Coupon" , text : self.$text)
+                        TextField("Type Coupon" , text : self.$CouponText)
                             .disableAutocorrection(true)
                             .textInputAutocapitalization(.never)
-                        //hint와 태두리에 간격을 띄우기위해 15정도의 간격을주고
                             .padding(15)
-                        //양옆은 추가로 15를 더줌
                             .padding(.horizontal,15)
-                        //배경색상은 자유롭게선택
                             .background(Color(.systemGray6))
-                        //검색창이 너무각지면 딱딱해보이기때문에 모서리를 둥글게
-                        //숫자는 취향것
                             .cornerRadius(15)
-                        //내가만든 검색창 상단에
-                        //돋보기를 넣어주기위해
-                        //오버레이를 선언
                             .overlay(
-                                //HStack을 선언하여
-                                //가로로 view를 쌓을수있도록 하나 만들고
                                 HStack{
-                                    //맨오른쪽으로 밀기위해 Spacer()로 밀어준다.
                                     Spacer()
-                                    //xcode에서 지원해주는 이미지
                                     
-                                    if self.editText{
-                                        //x버튼이미지를 클릭하게되면 입력되어있던값들을 취소하고
-                                        //키입력 이벤트를 종료해야한다.
+                                    if self.EditText{ // 입력 중일 때 입력 초기화 여부
                                         Button(action : {
-                                            self.editText = false
-                                            self.text = ""
-                                            //키보드에서 입력을 끝내게하는 코드
+                                            self.EditText = false
+                                            self.CouponText = ""
                                             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                                         }){
                                             Image(systemName: "multiply.circle.fill")
@@ -193,8 +133,6 @@ struct CouponView: View {
                                                 .padding()
                                         }
                                     }else{
-                                        //magnifyingglass 를 사용
-                                        //색상은 자유롭게 변경가능
                                         Image(systemName: "magnifyingglass")
                                             .foregroundColor(Color(.white))
                                             .padding()
@@ -202,14 +140,13 @@ struct CouponView: View {
                                     
                                 }
                             ).onTapGesture {
-                                self.editText = true
+                                self.EditText = true
                             }
                         
-                        Button(action: {
+                        Button(action: { // 등록 버튼
                             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil);
-                            showCoupon = false;
-                            Code(Coupon:text)
-                            
+                            ShowCoupon = false;
+                            Code(Coupon:CouponText)
                         }) {
                             
                             ZStack() {
@@ -229,61 +166,53 @@ struct CouponView: View {
 }
 
 struct MainView: View {
-    @State var showMenu = false
-    @State var showCoupon = false
+    @State var ShowSideMenu = false // 사이드 메뉴 표시 여부
+    @State var ShowCoupon = false // 쿠폰창 표시 여부
     
     var body: some View {
-        
-        let drag = DragGesture()
+        let Drag = DragGesture() // 드래그
             .onEnded {
                 if $0.translation.width > 100 {
                     withAnimation {
-                        self.showMenu = false
+                        self.ShowSideMenu = false
                     }
                 }
             }
         
-        GeometryReader { geometry in
+        GeometryReader { geometry in // 사이드 메뉴 표시에 따른 화면 상태
             ZStack(alignment: .trailing) {
-                FullmainView(showMenu: self.$showMenu)
+                FullmainView(ShowMenu: self.$ShowSideMenu)
                     .frame(width: geometry.size.width, height: geometry.size.height)
-                    .offset(x: self.showMenu ? -geometry.size.width/2 : 0)
+                    .offset(x: self.ShowSideMenu ? -geometry.size.width/2 : 0)
                 
-                if self.showMenu {
-                    SidemenuView(showCoupon: self.$showCoupon)
+                if self.ShowSideMenu { // 사이드 메뉴 표시 여부
+                    SidemenuView(ShowCoupon: self.$ShowCoupon)
                         .frame(width: geometry.size.width/2)
                         .transition(.move(edge: .trailing))
                 }
                 
-                if self.showCoupon {
-                    CouponView(showCoupon: self.$showCoupon)
+                if self.ShowCoupon { // 쿠폰창 표시 여부
+                    CouponView(ShowCoupon: self.$ShowCoupon)
                         
                 }
                 
             }
         }
-        .gesture(drag)
+        .gesture(Drag)
     }
 }
-//
 
-
-//
-
-//
-
-//
-func authorizeHealthkit() {
-    let healthStore = HKHealthStore()
-    let allTypes = Set([
+func authorizeHealthkit() { // 권한 허용 함수
+    let HealthStore = HKHealthStore()
+    let AllTypes = Set([
         HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
         HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.appleExerciseTime)!,
         HKObjectType.categoryType(forIdentifier: .appleStandHour)!
     ])
     
-    if HKHealthStore.isHealthDataAvailable() {
-        healthStore.requestAuthorization(toShare: nil, read: allTypes) { (success, error) in if(success) {
-            
+    if HKHealthStore.isHealthDataAvailable() { // 헬스 데이터 사용 여부 확인 후 권한 받아오기
+        HealthStore.requestAuthorization(toShare: nil, read: AllTypes) { (Success, error) in if(Success) {
+        
             print("permission granted")
         }
             
@@ -292,129 +221,121 @@ func authorizeHealthkit() {
 }
 
 struct ActivityRingView: View {
-    @EnvironmentObject var useractivity : UserActivity
+    @EnvironmentObject var UserActivity : UserActivityClass // 유저 활동
     
-    
-    func Kcaldata() {
-        print("GetEnergy Start")
-        let healthStore = HKHealthStore()
-        let now = Date()
-        let startDate = Calendar.current.startOfDay(for: now)
-        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: now, options: .strictStartDate)
+    func KcalData() { // 당일 칼로리 불러오기
+        let HealthStore = HKHealthStore()
+        let Now = Date()
+        let StartDate = Calendar.current.startOfDay(for: Now)
+        let Predicate = HKQuery.predicateForSamples(withStart: StartDate, end: Now, options: .strictStartDate)
         
         let Type = HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!
         
-            let query = HKStatisticsQuery(quantityType: Type, quantitySamplePredicate: predicate, options:.cumulativeSum){(query, result, error) in
-                let query_result = result?.sumQuantity() as Any
-                useractivity.Kcal = (query_result as AnyObject).doubleValue(for: HKUnit.kilocalorie())
-                print("\(useractivity.Kcal) Kcal")
+            let Query = HKStatisticsQuery(quantityType: Type, quantitySamplePredicate: Predicate, options:.cumulativeSum){(query, Result, error) in
+                let QueryResult = Result?.sumQuantity() as Any
+                UserActivity.Kcal = (QueryResult as AnyObject).doubleValue(for: HKUnit.kilocalorie())
+                print("\(UserActivity.Kcal) Kcal")
             }
-            healthStore.execute(query)
+            HealthStore.execute(Query)
     }
     
-    func Workdata() {
-        let healthStore = HKHealthStore()
-        let now = Date()
-        let startDate = Calendar.current.startOfDay(for: now)
-        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: now, options: .strictStartDate)
+    func ExerTimeData() { // 당일 운동 시간 불러오기
+        let HealthStore = HKHealthStore()
+        let Now = Date()
+        let StartDate = Calendar.current.startOfDay(for: Now)
+        let Predicate = HKQuery.predicateForSamples(withStart: StartDate, end: Now, options: .strictStartDate)
         
         guard let appleExerciseTimeType = HKSampleType.quantityType(forIdentifier: .appleExerciseTime) else{
             return
         }
         
-        let query = HKStatisticsQuery(quantityType: appleExerciseTimeType, quantitySamplePredicate: predicate, options:.cumulativeSum){(query, result, error) in
-            let query_result = result?.sumQuantity() as Any
-            useractivity.Exertime = (query_result as AnyObject).doubleValue(for: HKUnit.minute())
-            print("\(useractivity.Exertime) min")
+        let Query = HKStatisticsQuery(quantityType: appleExerciseTimeType, quantitySamplePredicate: Predicate, options:.cumulativeSum){(query, Result, error) in
+            let QueryResult = Result?.sumQuantity() as Any
+            UserActivity.ExerTime = (QueryResult as AnyObject).doubleValue(for: HKUnit.minute())
+            print("\(UserActivity.ExerTime) Min")
         }
-        healthStore.execute(query)
+        HealthStore.execute(Query)
     }
     
-    func Standdata() {
-        let healthStore = HKHealthStore()
-        let now = Date()
-        let startDate = Calendar.current.startOfDay(for: now)
-        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: now, options: .strictStartDate)
+    func StandTimeData() { // 당일 일어서기 시간 불러오기
+        let HealthStore = HKHealthStore()
+        let Now = Date()
+        let StartDate = Calendar.current.startOfDay(for: Now)
+        let Predicate = HKQuery.predicateForSamples(withStart: StartDate, end: Now, options: .strictStartDate)
         
         guard let appleStandTime = HKSampleType.categoryType(forIdentifier: .appleStandHour) else{
             return
         }
         
-        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
-        let query = HKSampleQuery(sampleType: appleStandTime, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { (query, tmpResult, error) -> Void in
-            if error != nil {
+        let SortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
+        let Query = HKSampleQuery(sampleType: appleStandTime, predicate: Predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [SortDescriptor]) { (query, Result, Error) -> Void in
+            if Error != nil {
                 return
             }
             
-            for item in tmpResult! {
-                if let sample = item as? HKCategorySample {
-                    if sample.value == 0 {
-                        useractivity.StandTime += 1
+            for Item in Result! {
+                if let TmpSample = Item as? HKCategorySample {
+                    if TmpSample.value == 0 {
+                        UserActivity.StandTime += 1
                     }
                 }
             }
             
-            print("\(useractivity.StandTime) Stand")
+            print("\(UserActivity.StandTime) Stand")
         }
-            healthStore.execute(query)
+            HealthStore.execute(Query)
     }
     
-    func DATA() {
-        Kcaldata()
-        Workdata()
-        Standdata()
+    func DataLoad() { // 당일 데이터 불러오기
+        KcalData()
+        ExerTimeData()
+        StandTimeData()
     }
     
     var body: some View {
-        ZStack() {
-            ActivityRedringView(progress:.constant((useractivity.Kcal >= useractivity.KcalMax ? useractivity.KcalMax : useractivity.Kcal) / useractivity.KcalMax))
+        ZStack() { // 레드, 그린, 블루 링 표시
+            ActivityRedringView(Progress:.constant((UserActivity.Kcal >= UserActivity.KcalMax ? UserActivity.KcalMax : UserActivity.Kcal) / UserActivity.KcalMax))
                 .fixedSize()
             
-            ActivityGreenringView(progress: .constant((useractivity.Exertime >= useractivity.ExertimeMax ? useractivity.ExertimeMax : useractivity.Exertime) / useractivity.ExertimeMax))
+            ActivityGreenringView(Progress: .constant((UserActivity.ExerTime >= UserActivity.ExerTimeMax ? UserActivity.ExerTimeMax : UserActivity.ExerTime) / UserActivity.ExerTimeMax))
                 .fixedSize()
             
-            ActivityBlueringView(progress: .constant((useractivity.StandTime >= useractivity.StandTimeMax ? useractivity.StandTimeMax : useractivity.StandTime) / useractivity.StandTimeMax))
+            ActivityBlueringView(Progress: .constant((UserActivity.StandTime >= UserActivity.StandTimeMax ? UserActivity.StandTimeMax : UserActivity.StandTime) / UserActivity.StandTimeMax))
         }
-        .onAppear(perform: DATA)
+        .onAppear(perform: DataLoad)
     }
 
 }
-//
 
 struct FullmainView: View {
-    @State private var progress: CGFloat = 1.0 // ring
-
-    @State private var Feedpoint : String = "Feed Points!"
-    @Binding var showMenu: Bool
+    @State private var FeedPointText : String = "Feed Points!" // 피드 버튼 텍스트
+    @Binding var ShowMenu: Bool // 사이드 메뉴 표시 여부
     
-    @EnvironmentObject var User: Userdata
-    @EnvironmentObject var Storage: UserStorage
+    @EnvironmentObject var UserData: UserDataClass
+    @EnvironmentObject var UserStorage: UserStorageClass
     
     var body: some View {
         ZStack() {
-            // Background 영역
             Color(decimalRed: 27, green: 29, blue: 31)
                 .ignoresSafeArea()
-            // Background 영역 종료
             
-            // Main 영역
-            VStack() {
-                HStack() {
+            VStack() { // Main 영역
+                HStack() { // 화면 상단
                     Spacer()
                     Spacer()
-                    Text("Level : \(User.Level)") // LEVEL
+                    Text("Level : \(UserData.Level)") // LEVEL
                         .foregroundColor(.white)
                         .font(.title)
                     Spacer()
                     Button(action: {
-                        if self.showMenu {
+                        if self.ShowMenu {
                             withAnimation {
-                                self.showMenu = false
+                                self.ShowMenu = false
                             }
                         }
                         else {
                             withAnimation {
-                                self.showMenu = true
+                                self.ShowMenu = true
                             }
                         }
                     }) {
@@ -424,16 +345,16 @@ struct FullmainView: View {
                     .padding()
                 }
                 
-                VStack() {
-                    Gauge(value: User.xp, in: 0...100){
-                        Text("You have \(Int(User.Havexp)) points")
+                VStack() { // 게이지
+                    Gauge(value: UserData.Xp, in: 0...100){
+                        Text("You have \(Int(UserData.HaveXp)) points")
                             .foregroundColor(.white)
                             .font(.title)
                             .bold()
                     }
                 currentValueLabel: {
-                    if User.Levelup == false {
-                        Text("Need \(100 - Int(User.xp)) points more!")
+                    if UserData.LevelUp == false {
+                        Text("Need \(100 - Int(UserData.Xp)) points more!")
                     }
                     else{
                         Text("100 points are required to Level up")
@@ -454,60 +375,60 @@ struct FullmainView: View {
                 }
                 Spacer()
                 
-                ZStack() {
+                ZStack() { // 링 표시
                     ActivityRingView()
                         .onAppear(
                             perform: authorizeHealthkit
                         )
-                    let PetImage : String = "PetImage"
+                    let PetImage : String = "PetImage" // 불러올 펫 이미지
                     
-                    Image("\(PetImage)\(User.Petnumber)")
+                    Image("\(PetImage)\(UserData.PetNumber)")
                         .resizable()
-                        .frame(width : (User.xp < 100 ? User.xp + 100 : 250))
-                        .frame(height : (User.xp < 100 ? User.xp + 100 : 250))
+                        .frame(width : (UserData.Xp < 100 ? UserData.Xp + 100 : 250))
+                        .frame(height : (UserData.Xp < 100 ? UserData.Xp + 100 : 250))
                     
                 }
                 Spacer()
                 
-                HStack(alignment: .center) {
-                    Button(action: {
-                        if User.Levelup == true {
-                            if User.Havexp >= 100 {
-                                User.Levelup = false
-                                User.Level += 1
-                                User.xp = 0
-                                User.Havexp -= 100
-                                Feedpoint = "Feed Points!"
+                HStack(alignment: .center) { // 화면 하단
+                    Button(action: { // 피드 버튼
+                        if UserData.LevelUp == true {
+                            if UserData.HaveXp >= 100 {
+                                UserData.LevelUp = false
+                                UserData.Level += 1
+                                UserData.Xp = 0
+                                UserData.HaveXp -= 100
+                                FeedPointText = "Feed Points!"
                             
-                                if Storage.Storageamount != Storage.StorageMaxamount {
-                                    let RandomInt = Storage.StorageNotHaveList.randomElement()!
+                                if UserStorage.StorageAmount != UserStorage.StorageMaxAmount {
+                                    let RandomInt = UserStorage.StorageNotHaveList.randomElement()!
                                     
-                                    Storage.StorageHaveList.insert(RandomInt)
-                                    Storage.StorageNotHaveList.remove(RandomInt)
-                                    Storage.Storageamount += 1
+                                    UserStorage.StorageHaveList.insert(RandomInt)
+                                    UserStorage.StorageNotHaveList.remove(RandomInt)
+                                    UserStorage.StorageAmount += 1
                                 }
                                 
-                                User.xpamount += 100
+                                UserData.XpAmount += 100
                             }
                             else{
                                 
                             }
                         }
                         else{
-                            if User.Havexp >= 10 {
-                                if User.xp == 90 {
-                                    User.Levelup = true
-                                    User.xp += 10
-                                    User.Havexp -= 10
-                                    Feedpoint = "Press to Level up!"
+                            if UserData.HaveXp >= 10 {
+                                if UserData.Xp == 90 {
+                                    UserData.LevelUp = true
+                                    UserData.Xp += 10
+                                    UserData.HaveXp -= 10
+                                    FeedPointText = "Press to Level up!"
                                     
-                                    User.xpamount += 10
+                                    UserData.XpAmount += 10
                                 }
                                 else{
-                                    User.xp += 10
-                                    User.Havexp -= 10
+                                    UserData.Xp += 10
+                                    UserData.HaveXp -= 10
                                     
-                                    User.xpamount += 10
+                                    UserData.XpAmount += 10
                                 }
                             }
                         }
@@ -518,18 +439,18 @@ struct FullmainView: View {
                             RoundedRectangle(cornerRadius: 20)
                                 .frame(height: 40)
                             
-                            Text("\(Feedpoint)")
+                            Text("\(FeedPointText)")
                                 .font(.title)
                                 .shadow(color: .black, radius: 2)
                                 .foregroundColor(.white)
                             
                         }
                     }
-                    .disabled((User.Levelup ? true : false) && (User.Havexp >= 100 ? false : true))
+                    .disabled((UserData.LevelUp ? true : false) && (UserData.HaveXp >= 100 ? false : true))
                     
                     Spacer()
                     
-                    Button(action: {
+                    Button(action: { // 애플 워치 공유 버튼
                 
                     }) {
                         Image(systemName: "square.and.arrow.up")
@@ -548,8 +469,8 @@ struct FullmainView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
-            .environmentObject(Userdata())
-            .environmentObject(UserStorage())
-            .environmentObject(UserActivity())
+            .environmentObject(UserDataClass())
+            .environmentObject(UserStorageClass())
+            .environmentObject(UserActivityClass())
     }
 }

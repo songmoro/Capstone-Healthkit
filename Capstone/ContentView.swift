@@ -7,27 +7,26 @@
 
 import SwiftUI
 
-@MainActor class Userdata : ObservableObject {
-    //@ObervedObjet를 사용하기위해 @Published를 할당
-    @Published var xp = 0.0
-    @Published var Havexp = 0.0
-    @Published var Level = 0
-    @Published var Levelup = false
-    @Published var Petnumber = 1
+@MainActor class UserDataClass : ObservableObject { // 유저 데이터
+    @Published var Xp = 0.0 // 경험치 게이지
+    @Published var HaveXp = 0.0 // 소유 경험치
+    @Published var Level = 0 // 현재 레벨
+    @Published var LevelUp = false // 경험치 게이지 100 여부
+    @Published var PetNumber = 1 // 선택된 펫
     
-    @Published var Kcalamount = 0
-    @Published var Exertimeamount = 0
-    @Published var Standtimeamount = 0
-    @Published var xpamount = 0
+    @Published var KcalAmount = 0 // 총 칼로리
+    @Published var ExerTimeAmount = 0 // 총 운동 시간
+    @Published var StandTimeAmount = 0 // 총 일어서기 시간
+    @Published var XpAmount = 0 // 총 경험치 사용량
 }
 
-@MainActor class UserAchivement : ObservableObject {
-    @Published var Achivecount = 0
-    @Published var AchiveMaxcount = 20
+@MainActor class UserAchivementClass : ObservableObject { // 유저 업적
+    @Published var AchiveCount = 0 // 달성 업적 개수
+    @Published var AchiveMaxCount = 20 // 달성 가능 최대 업적 개수
     
-    @Published var AchiveNew = 0
+    @Published var AchiveNew = 0 // 달성한 새로운 업적 수
     
-    @Published var AchiveList : [String] = [
+    @Published var AchiveList : [String] = [ // 업적 리스트
         "활동 칼로리 총 100Kcal 달성",
         "활동 칼로리 총 1000Kcal 달성",
         "활동 칼로리 총 10000Kcal 달성",
@@ -50,7 +49,7 @@ import SwiftUI
         "소모 포인트 총 10000pts 달성"
     ]
     
-    @Published var Achiveamount : [Int] = [
+    @Published var AchiveAmount : [Int] = [ // 업적 계수
         100,
         1000,
         10000,
@@ -73,30 +72,30 @@ import SwiftUI
         10000
     ]
     
-    @Published var AchiveObject : [String] = [
-        "Kcalamount",
-        "Kcalamount",
-        "Kcalamount",
-        "Exertimeamount",
-        "Exertimeamount",
-        "Exertimeamount",
-        "Standtimeamount",
-        "Standtimeamount",
-        "Standtimeamount",
-        "Storageamount",
-        "Storageamount", // 10
-        "Storageamount",
-        "Storageamount",
-        "Storageamount",
+    @Published var AchiveObject : [String] = [ // 읽을 데이터
+        "KcalAmount",
+        "KcalAmount",
+        "KcalAmount",
+        "ExerTimeAmount",
+        "ExerTimeAmount",
+        "ExerTimeAmount",
+        "StandTimeAmount",
+        "StandTimeAmount",
+        "StandTimeAmount",
+        "StorageAmount",
+        "StorageAmount", // 10
+        "StorageAmount",
+        "StorageAmount",
+        "StorageAmount",
         "Level",
         "Level",
         "Level",
-        "xpamount",
-        "xpamount",
-        "xpamount"
+        "XpAmount",
+        "XpAmount",
+        "XpAmount"
     ]
     
-    @Published var AchivePass : [Bool] = [
+    @Published var AchivePass : [Bool] = [ // 달성 여부
         false, false, false, false, false,
         false, false, false, false, false,
         false, false, false, false, false,
@@ -104,49 +103,49 @@ import SwiftUI
     ]
 }
 
-@MainActor class UserStorage : ObservableObject {
-    @Published var Storageamount = 1
-    @Published var StorageMaxamount = 5
-    @Published var StorageList : [Int] = [1, 3, 5]
+@MainActor class UserStorageClass : ObservableObject { // 유저 보관함
+    @Published var StorageAmount = 1 // 펫 보유 수
+    @Published var StorageMaxAmount = 5 // 펫 최대 보유 수
+    @Published var StorageList : [Int] = [1, 3, 5] // 배열에 들어갈 리스트
     
-    @Published var StorageHaveList : Set<Int> = [1]
-    @Published var StorageNotHaveList : Set<Int> = [2, 3, 4, 5]
+    @Published var StorageHaveList : Set<Int> = [1] // 현재 보유 펫 번호
+    @Published var StorageNotHaveList : Set<Int> = [2, 3, 4, 5] // 현재 미보유 펫 번호
 }
 
-@MainActor class UserActivity : ObservableObject {
-    @Published var Auth = 0
+@MainActor class UserActivityClass : ObservableObject { // 유저 활동
+    @Published var Auth = 0 // 권한 인증 여부
     
-    @Published var Kcal = 0.0
-    @Published var Exertime = 0.0
-    @Published var StandTime = 0.0
+    @Published var Kcal = 0.0 // 당일 칼로리
+    @Published var ExerTime = 0.0 // 당일 운동 시간
+    @Published var StandTime = 0.0 // 당일 일어서기 시간
     
-    @Published var KcalMax = 400.0
-    @Published var ExertimeMax = 60.0
-    @Published var StandTimeMax = 10.0
+    @Published var KcalMax = 400.0 // 당일 최대 칼로리
+    @Published var ExerTimeMax = 60.0 // 당일 최대 운동 시간
+    @Published var StandTimeMax = 10.0 // 당일 최대 일어서기 시간
 }
 
-struct ContentView: View {
-    @State private var selection = 1
+struct ContentView: View { // 주축 뷰
+    @State private var TabSelect = 1 // 현재 선택한 탭 번호
     
-    @StateObject var userdata = Userdata()
-    @StateObject var userstorage = UserStorage()
-    @StateObject var userachivement = UserAchivement()
-    @StateObject var useractivity = UserActivity()
+    @StateObject var UserData = UserDataClass() // 유저 데이터 연동
+    @StateObject var UserStorage = UserStorageClass() // 유저 보관함 연동
+    @StateObject var UserAchivement = UserAchivementClass() // 유저 업적 연동
+    @StateObject var UserActivity = UserActivityClass() // 유저 활동 연동
     
-    init() {
+    init() { // 탭 기본 세팅
         UITabBar.appearance().isTranslucent = false
         UITabBar.appearance().backgroundColor = UIColor(Color(decimalRed: 27, green: 29, blue: 31))
         UITabBar.appearance().barTintColor = UIColor(Color(decimalRed: 27, green: 29, blue: 31))
     }
     
     var body: some View {
-        TabView(selection: $selection) {
+        TabView(selection: $TabSelect) { // 탭
             AchievementView()
                 .tabItem() {
                     Label("Achive", systemImage: "trophy")
                 }
                 .tag(0)
-                //.badge(userachivement.AchiveNew)
+                //.badge(userachivement.AchiveNew) // 새로 달성한 업적 표시
             
             MainView()
                 .tabItem() {
@@ -161,13 +160,12 @@ struct ContentView: View {
                 .tag(2)
             
         }
-        .environmentObject(userdata)
-        .environmentObject(userstorage)
-        .environmentObject(userachivement)
-        .environmentObject(useractivity)
+        .environmentObject(UserData)
+        .environmentObject(UserStorage)
+        .environmentObject(UserAchivement)
+        .environmentObject(UserActivity)
         .onAppear() {
             UITabBar.appearance().unselectedItemTintColor = UIColor.systemGray
-            //UITabBar.appearance().scrollEdgeAppearance
         }
         .accentColor(.yellow)
     }

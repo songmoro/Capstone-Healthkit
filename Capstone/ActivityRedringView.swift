@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension Color {
+extension Color { // 색 사전 정의
     public static var outlineRed: Color {
         return Color(decimalRed: 34, green: 0, blue: 3)
     }
@@ -26,16 +26,16 @@ extension Color {
 }
 
 struct ActivityRedringView: View {
-    @Binding var progress: CGFloat
+    @Binding var Progress: CGFloat // 진행도
     
-    var colors: [Color] = [Color.darkRed, Color.lightRed]
+    var colors: [Color] = [Color.darkRed, Color.lightRed] // 색 배열
     
     var body: some View {
         ZStack {
             Circle()
                 .stroke(Color.outlineRed, lineWidth: 20)
             Circle()
-                .trim(from: 0, to: progress)
+                .trim(from: 0, to: Progress)
                 .stroke(
                     AngularGradient(
                         gradient: Gradient(colors: colors),
@@ -51,10 +51,10 @@ struct ActivityRedringView: View {
                 .offset(y: -160)
             Circle()
                 .frame(width: 20, height: 20)
-                .foregroundColor(progress > 0.95 ? Color.lightRed: Color.lightRed.opacity(0))
+                .foregroundColor(Progress > 0.95 ? Color.lightRed: Color.lightRed.opacity(0))
                 .offset(y: -160)
-                .rotationEffect(Angle.degrees(360 * Double(progress)))
-                .shadow(color: progress > 0.96 ? Color.black.opacity(0.1): Color.clear, radius: 3, x: 4, y: 0)
+                .rotationEffect(Angle.degrees(360 * Double(Progress)))
+                .shadow(color: Progress > 0.96 ? Color.black.opacity(0.1): Color.clear, radius: 3, x: 4, y: 0)
         }
         .frame(width: 320, height: 320, alignment: .center)
     }
@@ -63,6 +63,6 @@ struct ActivityRedringView: View {
 struct ActivityRedringView_Previews: PreviewProvider {
     
     static var previews: some View {
-        ActivityRedringView(progress: .constant(0))
+        ActivityRedringView(Progress: .constant(0))
     }
 }

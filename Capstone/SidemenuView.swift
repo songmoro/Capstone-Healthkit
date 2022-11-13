@@ -7,14 +7,12 @@
 
 import SwiftUI
 
-
-
-struct SidemenuView: View {
-    @Binding var showCoupon: Bool
+struct SidemenuView: View { // 사이드 메뉴
+    @Binding var ShowCoupon: Bool // 쿠폰창 표시 여부
     
     var body: some View {
         VStack(alignment: .leading){
-            HStack{
+            HStack{ // 유저 고유 번호
                 Button(action : {print("1")}) {
                     Image(systemName: "person")
                         .foregroundColor(.gray)
@@ -25,8 +23,8 @@ struct SidemenuView: View {
                 }
             }
             .padding(.top, 100)
-            HStack{
-                Button(action : {print("2"); showCoupon = true }) {
+            HStack{ // 쿠폰창
+                Button(action : {print("2"); ShowCoupon = true }) {
                     Image(systemName: "gift")
                         .foregroundColor(.gray)
                         .imageScale(.large)
@@ -36,7 +34,7 @@ struct SidemenuView: View {
                 }
             }
             .padding(.top, 30)
-            HStack{
+            HStack{ // 가이드 표시 버튼
                 Button(action : {print("3")}) {
                     Image(systemName: "info.circle")
                         .foregroundColor(.gray)
@@ -47,7 +45,7 @@ struct SidemenuView: View {
                 }
             }
             .padding(.top, 30)
-            HStack{
+            HStack{ // 개발자 연락처
                 Button(action : {print("4")}) {
                     Image(systemName: "envelope")
                         .foregroundColor(.gray)
@@ -69,6 +67,6 @@ struct SidemenuView: View {
 
 struct SidemenuView_Previews: PreviewProvider {
     static var previews: some View {
-        SidemenuView(showCoupon: .constant(false))
+        SidemenuView(ShowCoupon: .constant(false))
     }
 }

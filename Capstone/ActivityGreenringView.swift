@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension Color {
+extension Color { // 색 사전 정의
     public static var outlineGreen: Color {
         return Color(decimalRed: 37, green: 55, blue: 29)
     }
@@ -26,16 +26,16 @@ extension Color {
 }
 
 struct ActivityGreenringView: View {
-    @Binding var progress: CGFloat
+    @Binding var Progress: CGFloat // 진행도
     
-    var colors: [Color] = [Color.darkGreen, Color.lightGreen]
+    var colors: [Color] = [Color.darkGreen, Color.lightGreen] // 색 배열
     
     var body: some View {
         ZStack {
             Circle()
                 .stroke(Color.outlineGreen, lineWidth: 20)
             Circle()
-                .trim(from: 0, to: progress)
+                .trim(from: 0, to: Progress)
                 .stroke(
                     AngularGradient(
                         gradient: Gradient(colors: colors),
@@ -51,10 +51,10 @@ struct ActivityGreenringView: View {
                 .offset(y: -140)
             Circle()
                 .frame(width: 20, height: 20)
-                .foregroundColor(progress > 0.95 ? Color.lightGreen: Color.lightGreen.opacity(0))
+                .foregroundColor(Progress > 0.95 ? Color.lightGreen: Color.lightGreen.opacity(0))
                 .offset(y: -140)
-                .rotationEffect(Angle.degrees(360 * Double(progress)))
-                .shadow(color: progress > 0.96 ? Color.black.opacity(0.1): Color.clear, radius: 3, x: 4, y: 0)
+                .rotationEffect(Angle.degrees(360 * Double(Progress)))
+                .shadow(color: Progress > 0.96 ? Color.black.opacity(0.1): Color.clear, radius: 3, x: 4, y: 0)
         }.frame(width: 280, height: 280, alignment: .center)
     }
 }
@@ -62,6 +62,6 @@ struct ActivityGreenringView: View {
 struct ActivityGreenringView_Previews: PreviewProvider {
     
     static var previews: some View {
-        ActivityGreenringView(progress: .constant(0))
+        ActivityGreenringView(Progress: .constant(0))
     }
 }
