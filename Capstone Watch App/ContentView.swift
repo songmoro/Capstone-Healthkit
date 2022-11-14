@@ -8,19 +8,20 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var dataset: DataSet
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            Image("\(dataset.PetImage)\(dataset.PetNumber)")
+            Text("\(dataset.PetNumber)").padding()
         }
-        .padding()
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(dataset: DataSet(id: 0, PetNumber: "1", PetImage: "PetImage"))
     }
 }
+

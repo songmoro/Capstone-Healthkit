@@ -16,6 +16,7 @@ struct CouponView: View {
     @EnvironmentObject var UserData: UserDataClass // 유저 데이터
     @EnvironmentObject var UserActivity: UserActivityClass // 유저 활동
     @EnvironmentObject var UserStorage:UserStorageClass // 유저 보관함
+    @EnvironmentObject var UserAchivement:UserAchivementClass // 유저 업적
     
     func Code(Coupon:String) { // 적용될 디버깅 코드
         switch Coupon {
@@ -83,9 +84,45 @@ struct CouponView: View {
             UserStorage.StorageNotHaveList = [2, 3, 4, 5]
             UserData.PetNumber = 1
             
+        case "clearachive":
+            UserAchivement.AchiveCount = 0
+            UserAchivement.AchivePass = [
+                false, false, false, false, false,
+                false, false, false, false, false,
+                false, false, false, false, false,
+                false, false, false, false, false,
+            ]
+            
         case "clear":
-            Code(Coupon:"clearact")
-            Code(Coupon:"clearstorage")
+            UserData.HaveXp = 0
+            UserData.Level = 0
+            UserData.Xp = 0
+            UserData.LevelUp = false
+            UserData.XpAmount = 0
+            
+            UserActivity.Kcal = 0
+            UserActivity.ExerTime = 0
+            UserActivity.StandTime = 0
+            
+            UserData.KcalAmount = 0
+            UserData.ExerTimeAmount = 0
+            UserData.StandTimeAmount = 0
+            
+            UserStorage.StorageAmount = 1
+            UserStorage.StorageMaxAmount = 5
+            UserStorage.StorageList = [1, 3, 5]
+            
+            UserStorage.StorageHaveList = [1]
+            UserStorage.StorageNotHaveList = [2, 3, 4, 5]
+            UserData.PetNumber = 1
+            
+            UserAchivement.AchiveCount = 0
+            UserAchivement.AchivePass = [
+                false, false, false, false, false,
+                false, false, false, false, false,
+                false, false, false, false, false,
+                false, false, false, false, false,
+            ]
             
         default: // 나머지
             break
@@ -299,7 +336,7 @@ struct ActivityRingView: View {
     }
     
     var body: some View {
-        ZStack() { // 레드, 그린, 블루 링 표시
+        ZStack() { // 레드, 그린, 블루링 표시
             ActivityRedringView(Progress:.constant((UserActivity.Kcal >= UserActivity.KcalMax ? UserActivity.KcalMax : UserActivity.Kcal) / UserActivity.KcalMax))
                 .fixedSize()
             
@@ -456,6 +493,8 @@ struct FullmainView: View {
                     
                     Spacer()
                     
+                    
+                    /*
                     Button(action: { // 애플 워치 공유 버튼
                 
                     }) {
@@ -463,6 +502,7 @@ struct FullmainView: View {
                             .foregroundColor(.yellow)
                             .font(.system(size : 30))
                     }
+                     */
                     Spacer()
                 }
                 Spacer()

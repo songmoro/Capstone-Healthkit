@@ -76,7 +76,7 @@ struct AchievementView: View {
                                         .foregroundColor(.gray)
                                         .frame(width: 50, height: 50)
                                     
-                                    if UserAchivement.AchivePass[row] {
+                                    if UserAchivement.AchivePass[row] { // 달성 여부 검사
                                         Text("Got")
                                             .foregroundColor(.yellow)
                                             .frame(width: 50, height: 50)

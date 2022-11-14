@@ -24,7 +24,7 @@ import SwiftUI
     @Published var AchiveCount = 0 // 달성 업적 개수
     @Published var AchiveMaxCount = 20 // 달성 가능 최대 업적 개수
     
-    @Published var AchiveNew = 0 // 달성한 새로운 업적 수
+    @Published var AchiveNew = 0 // 달성한 새로운 업적 여부
     
     @Published var AchiveList : [String] = [ // 업적 리스트
         "활동 칼로리 총 100Kcal 달성",
@@ -138,6 +138,44 @@ struct ContentView: View { // 주축 뷰
         UITabBar.appearance().barTintColor = UIColor(Color(decimalRed: 27, green: 29, blue: 31))
     }
     
+    func AchiveNewCheck(){ // 새로운 업적 달성 체크
+        func ref(row:Int) -> Int { // 참조 계수 결정
+            switch UserAchivement.AchiveObject[row] {
+            case "KcalAmount" :
+                return UserData.KcalAmount
+                
+            case "ExerTimeAmount" :
+                return UserData.ExerTimeAmount
+                
+            case "StandTimeAmount" :
+                return UserData.StandTimeAmount
+                
+            case "StorageAmount" :
+                return UserStorage.StorageAmount
+                
+            case "Level" :
+                return UserData.Level
+                
+            case "XpAmount" :
+                return UserData.XpAmount
+                
+            default:
+                return 0
+            }
+        }
+        
+        var BadgeCount = 0
+        
+        for i in 0...19 {
+            let AchiveAmount = ref(row:i) // 참조 계수 불러오기
+            
+            if (AchiveAmount >= UserAchivement.AchiveAmount[i]) && (!UserAchivement.AchivePass[i]){
+                BadgeCount += 1
+            }
+        }
+        UserAchivement.AchiveNew = BadgeCount
+    }
+    
     var body: some View {
         TabView(selection: $TabSelect) { // 탭
             AchievementView()
@@ -145,19 +183,30 @@ struct ContentView: View { // 주축 뷰
                     Label("Achive", systemImage: "trophy")
                 }
                 .tag(0)
-                //.badge(userachivement.AchiveNew) // 새로 달성한 업적 표시
+                .badge(UserAchivement.AchiveNew) // 새로 달성한 업적 표시
+            
+                .onAppear(
+                    perform:AchiveNewCheck
+                )
             
             MainView()
                 .tabItem() {
                     Label("Main", systemImage: "house")
                 }
                 .tag(1)
+                .onAppear(
+                    perform:AchiveNewCheck
+                )
             
             StorageView()
                 .tabItem() {
                     Label("Storage", systemImage: "archivebox")
                 }
                 .tag(2)
+            
+                .onAppear(
+                    perform:AchiveNewCheck
+                )
             
         }
         .environmentObject(UserData)
