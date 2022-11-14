@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6229714828D9949200F6165D /* ActivityRedringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6229714728D9949200F6165D /* ActivityRedringView.swift */; };
 		6236F65328DB4E59004D8090 /* SidemenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6236F65228DB4E59004D8090 /* SidemenuView.swift */; };
+		6245B0652921CB330056286B /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6245B0642921CB330056286B /* ComplicationController.swift */; };
 		626E353F28D481270093BCFC /* CapstoneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626E353E28D481270093BCFC /* CapstoneApp.swift */; };
 		626E354128D481270093BCFC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626E354028D481270093BCFC /* ContentView.swift */; };
 		626E354328D481280093BCFC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 626E354228D481280093BCFC /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 		62EA03E528DAD01400EF2AA9 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EA03E428DAD01400EF2AA9 /* MainView.swift */; };
 		62EA03E728DAD17200EF2AA9 /* AchievementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EA03E628DAD17200EF2AA9 /* AchievementView.swift */; };
 		62EA03E928DAED9000EF2AA9 /* StorageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EA03E828DAED9000EF2AA9 /* StorageView.swift */; };
+		62FF723B2922452900CE90A4 /* UserControll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62FF723A2922452800CE90A4 /* UserControll.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,8 @@
 /* Begin PBXFileReference section */
 		6229714728D9949200F6165D /* ActivityRedringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityRedringView.swift; sourceTree = "<group>"; };
 		6236F65228DB4E59004D8090 /* SidemenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidemenuView.swift; sourceTree = "<group>"; };
+		6245B0612921C4DF0056286B /* Capstone-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Capstone-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
+		6245B0642921CB330056286B /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		626E353B28D481270093BCFC /* Capstone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capstone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		626E353E28D481270093BCFC /* CapstoneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapstoneApp.swift; sourceTree = "<group>"; };
 		626E354028D481270093BCFC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -68,6 +72,7 @@
 		62EA03E428DAD01400EF2AA9 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		62EA03E628DAD17200EF2AA9 /* AchievementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementView.swift; sourceTree = "<group>"; };
 		62EA03E828DAED9000EF2AA9 /* StorageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageView.swift; sourceTree = "<group>"; };
+		62FF723A2922452800CE90A4 /* UserControll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserControll.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,8 +141,11 @@
 		626E354F28D481280093BCFC /* Capstone Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				6245B0612921C4DF0056286B /* Capstone-Watch-App-Info.plist */,
 				626E355028D481280093BCFC /* CapstoneApp.swift */,
+				6245B0642921CB330056286B /* ComplicationController.swift */,
 				626E355228D481280093BCFC /* ContentView.swift */,
+				62FF723A2922452800CE90A4 /* UserControll.swift */,
 				626E355428D481280093BCFC /* Assets.xcassets */,
 				626E355628D481280093BCFC /* Preview Content */,
 			);
@@ -271,6 +279,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				626E355328D481280093BCFC /* ContentView.swift in Sources */,
+				62FF723B2922452900CE90A4 /* UserControll.swift in Sources */,
+				6245B0652921CB330056286B /* ComplicationController.swift in Sources */,
 				626E355128D481280093BCFC /* CapstoneApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -406,6 +416,7 @@
 				DEVELOPMENT_TEAM = ZN3YWL2XQP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Capstone-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Capstone;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "--------.Capstone";
@@ -436,6 +447,7 @@
 				DEVELOPMENT_TEAM = ZN3YWL2XQP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Capstone-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Capstone;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "--------.Capstone";
